@@ -17,23 +17,23 @@ public class RgCreateDocumentStrategy implements CreateDocumentStrategy {
     private final DocumentCopyApplicationService documentCopyApplicationService;
 
     @Override
-    public Result<RgDocument> create(CreateDocument createDocument) {
-        var createRgDocumentDto = (CreateRgDocumentDto) createDocument.getCreateDocumentDto();
+    public Result<RgDocument> create(CreateDocumentStrategyInput input) {
+        var dto = (CreateRgDocumentDto) input.getCreateDocumentDto();
 
         var documentCopyOptional = documentCopyApplicationService
                 .findDocumentCopy(
-                        createDocument.getFolderId(),
-                        createRgDocumentDto.getFileName());
+                        input.getFolderId(),
+                        dto.getFileName());
 
         if (documentCopyOptional.isEmpty()) {
             return Result.error("FileName not exists, upload a document copy first");
         }
 
-        return RgDocument.create(createRgDocumentDto.getFileName());
+        return RgDocument.create(dto.getFileName());
     }
 
     @Override
-    public DocumentType getDocumentType() {
+    public DocumentType getApplicableDocumentType() {
         return DocumentType.RG;
     }
 }

@@ -14,13 +14,16 @@ public class UpdateDocumentStrategyFactory {
 
     private final Map<DocumentType, UpdateDocumentStrategy> updateStrategyByDocumentType;
 
-    public UpdateDocumentStrategyFactory(List<UpdateDocumentStrategy> updateStrategies) {
+    private UpdateDocumentStrategyFactory(List<UpdateDocumentStrategy> updateStrategies) {
         updateStrategyByDocumentType = new HashMap<>();
+
         updateStrategies.forEach(updateDocumentStrategy ->
-                updateStrategyByDocumentType.put(updateDocumentStrategy.getDocumentType(), updateDocumentStrategy));
+                updateStrategyByDocumentType.put(
+                        updateDocumentStrategy.getApplicableDocumentType(),
+                        updateDocumentStrategy));
     }
 
-    public Optional<UpdateDocumentStrategy> findCreateStrategyByDocumentType(DocumentType documentType) {
+    public Optional<UpdateDocumentStrategy> findUpdateStrategyByDocumentType(DocumentType documentType) {
         return Optional.ofNullable(updateStrategyByDocumentType.get(documentType));
     }
 }

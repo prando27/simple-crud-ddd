@@ -6,7 +6,7 @@ import com.example.simplecrudddd.domain.folder.document.Document;
 
 public interface CreateDocumentStrategy {
 
-    Result<? extends Document> create(CreateDocument create);
+    Result<? extends Document> create(CreateDocumentStrategyInput input);
 
-    DocumentType getDocumentType();
+    DocumentType getApplicableDocumentType();
 }

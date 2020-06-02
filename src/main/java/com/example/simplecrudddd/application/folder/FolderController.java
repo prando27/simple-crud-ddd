@@ -21,11 +21,11 @@ import com.example.simplecrudddd.application.dto.DocumentCopyDto;
 import com.example.simplecrudddd.application.dto.DocumentDto;
 import com.example.simplecrudddd.application.dto.FolderDto;
 import com.example.simplecrudddd.application.dto.UpdateDocumentDto;
-import com.example.simplecrudddd.application.folder.strategy.createdocument.CreateDocument;
 import com.example.simplecrudddd.application.folder.strategy.createdocument.CreateDocumentStrategyFactory;
+import com.example.simplecrudddd.application.folder.strategy.createdocument.CreateDocumentStrategyInput;
 import com.example.simplecrudddd.application.folder.strategy.updatedocument.UpdateDocumentStrategyFactory;
+import com.example.simplecrudddd.application.folder.strategy.updatedocument.UpdateDocumentStrategyInput;
 import com.example.simplecrudddd.common.Envelope;
-import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.folder.Folder;
 import com.example.simplecrudddd.domain.folder.FolderRepository;
 import com.example.simplecrudddd.domain.folder.document.Document;
@@ -100,7 +100,7 @@ public class FolderController {
         }
 
         var createStrategy = createStrategyOptional.get();
-        var createDocumentResult = createStrategy.create(new CreateDocument(folder.getId(), dto));
+        var createDocumentResult = createStrategy.create(new CreateDocumentStrategyInput(folder.getId(), dto));
         if (createDocumentResult.isError()) {
             return ResponseEntity.badRequest().body(Envelope.error(createDocumentResult.getError()));
         }
@@ -139,15 +139,16 @@ public class FolderController {
         var document = documentOptional.get();
 
         var updateStrategyOptional = updateDocumentStrategyFactory
-                .findCreateStrategyByDocumentType(document.getDocumentType());
+                .findUpdateStrategyByDocumentType(document.getDocumentType());
         if (updateStrategyOptional.isEmpty()) {
             return ResponseEntity.badRequest().body(Envelope.error("Document Type not exists"));
         }
         var updateDocumentStrategy = updateStrategyOptional.get();
 
-        Result<? extends Document> updateResult = updateDocumentStrategy.update(dto, document);
-        if (updateResult.isError()) {
-            return ResponseEntity.badRequest().body(Envelope.error(updateResult.getError()));
+        var updateDocumentResult =
+                updateDocumentStrategy.update(new UpdateDocumentStrategyInput(dto, document));
+        if (updateDocumentResult.isError()) {
+            return ResponseEntity.badRequest().body(Envelope.error(updateDocumentResult.getError()));
         }
 
         return ResponseEntity.ok(Envelope.ok(new DocumentDto(document)));
@@ -161,7 +162,7 @@ public class FolderController {
             return ResponseEntity.badRequest().body(Envelope.error("Folder not exists"));
         }
 
-        Result<DocumentCopyDto> storeDocumentResult = documentCopyApplicationService
+        var storeDocumentResult = documentCopyApplicationService
                 .storeDocumentCopy(folderId, file.getOriginalFilename());
 
         if (storeDocumentResult.isError()) {

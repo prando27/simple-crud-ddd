@@ -13,8 +13,6 @@ import com.example.simplecrudddd.common.AggregateRoot;
 import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.folder.document.Document;
 import com.example.simplecrudddd.domain.folder.document.DocumentTypeLimitPerFolder;
-import com.example.simplecrudddd.domain.folder.document.IdentityDocument;
-import com.example.simplecrudddd.domain.folder.document.event.DocumentCreatedEvent;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -44,17 +42,17 @@ public class Folder extends AggregateRoot {
             }
         }
 
-        registerEvent(new DocumentCreatedEvent());
+//        registerEvent(new DocumentCreatedEvent());
 
         document.setFolder(this);
         return documents.add(document);
     }
 
-    public Optional<Document> findIdentityDocument() {
-        return documents.stream()
-                .filter(document -> document instanceof IdentityDocument)
-                .findFirst();
-    }
+//    public Optional<Document> findIdentityDocument() {
+//        return documents.stream()
+//                .filter(document -> document instanceof IdentityDocument)
+//                .findFirst();
+//    }
 
     private boolean isDocumentWithSameContentExists(String documentContent) {
         return documents.stream()

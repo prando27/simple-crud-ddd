@@ -3,12 +3,9 @@ package com.example.simplecrudddd.application.folder.strategy.updatedocument;
 import org.springframework.stereotype.Component;
 
 import com.example.simplecrudddd.application.DocumentCopyApplicationService;
-import com.example.simplecrudddd.application.dto.UpdateCnhDocumentDto;
-import com.example.simplecrudddd.application.dto.UpdateDocumentDto;
 import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.folder.document.CnhDocument;
-import com.example.simplecrudddd.domain.folder.document.Document;
 
 import lombok.AllArgsConstructor;
 
@@ -19,9 +16,9 @@ public class CnhUpdateDocumentStrategy implements UpdateDocumentStrategy {
     private final DocumentCopyApplicationService documentCopyApplicationService;
 
     @Override
-    public Result<CnhDocument> update(UpdateDocumentDto dto, Document document) {
-        var updateCnhDocumentDto = (UpdateCnhDocumentDto) dto;
-        var cnhDocument = (CnhDocument) document;
+    public Result<CnhDocument> update(UpdateDocumentStrategyInput input) {
+//        var updateCnhDocumentDto = (UpdateCnhDocumentDto) dto;
+//        var cnhDocument = (CnhDocument) document;
 
 //        documentCopyApplicationService.findDocumentCopy()
 
@@ -36,7 +33,7 @@ public class CnhUpdateDocumentStrategy implements UpdateDocumentStrategy {
     }
 
     @Override
-    public DocumentType getDocumentType() {
+    public DocumentType getApplicableDocumentType() {
         return DocumentType.PERSONAL_INFO;
     }
 }

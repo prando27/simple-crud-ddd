@@ -2,44 +2,49 @@ package com.example.simplecrudddd.application.folder.strategy.updatedocument;
 
 import org.springframework.stereotype.Component;
 
-import com.example.simplecrudddd.application.dto.UpdateDocumentDto;
 import com.example.simplecrudddd.application.dto.UpdatePersonalInfoDocumentDto;
 import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.Cpf;
 import com.example.simplecrudddd.domain.DocumentType;
+import com.example.simplecrudddd.domain.Email;
 import com.example.simplecrudddd.domain.Name;
-import com.example.simplecrudddd.domain.folder.document.Document;
 import com.example.simplecrudddd.domain.folder.document.PersonalInfoDocument;
 
 @Component
 public class PersonalInfoUpdateDocumentStrategy implements UpdateDocumentStrategy {
 
     @Override
-    public Result<PersonalInfoDocument> update(UpdateDocumentDto dto, Document document) {
-        var updatePersonalInfoDocumentDto = (UpdatePersonalInfoDocumentDto) dto;
-        var personalInfoDocument = (PersonalInfoDocument) document;
+    public Result<PersonalInfoDocument> update(UpdateDocumentStrategyInput input) {
+        var dto = (UpdatePersonalInfoDocumentDto) input.getDto();
+        var existingPersonalInfoDocument = (PersonalInfoDocument) input.getExistingDocument();
 
-        Result<Name> nameResult = Name.create(updatePersonalInfoDocumentDto.getFullName());
-        if (nameResult.isError()) {
-            return Result.error(nameResult.getError());
+        // TODO - Search about the Result.combine method
+        Result<Name> fullNameResult = Name.create(dto.getFullName());
+        if (fullNameResult.isError()) {
+            return Result.error(fullNameResult.getError());
         }
 
-        Result<Cpf> cpfResult = Cpf.create(updatePersonalInfoDocumentDto.getCpf());
+        Result<Cpf> cpfResult = Cpf.create(dto.getCpf());
         if (cpfResult.isError()) {
             return Result.error(cpfResult.getError());
         }
 
-        personalInfoDocument.update(
-                nameResult.getValue(),
+        Result<Email> emailResult = Email.create(dto.getEmail());
+        if (emailResult.isError()) {
+            return Result.error(emailResult.getError());
+        }
+
+        existingPersonalInfoDocument.update(
+                fullNameResult.getValue(),
                 cpfResult.getValue(),
-                updatePersonalInfoDocumentDto.getEmail()
+                emailResult.getValue()
         );
 
-        return Result.ok(personalInfoDocument);
+        return Result.ok(existingPersonalInfoDocument);
     }
 
     @Override
-    public DocumentType getDocumentType() {
+    public DocumentType getApplicableDocumentType() {
         return DocumentType.PERSONAL_INFO;
     }
 }

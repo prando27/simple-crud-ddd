@@ -11,14 +11,14 @@ import com.example.simplecrudddd.domain.folder.document.AddressDocument;
 public class AddressCreateDocumentStrategy implements CreateDocumentStrategy {
 
     @Override
-    public Result<AddressDocument> create(CreateDocument createDocument) {
-        var createAddressDocumentDto = (CreateAddressDocumentDto) createDocument.getCreateDocumentDto();
+    public Result<AddressDocument> create(CreateDocumentStrategyInput input) {
+        var createAddressDocumentDto = (CreateAddressDocumentDto) input.getCreateDocumentDto();
 
         return AddressDocument.create(createAddressDocumentDto.getStreet());
     }
 
     @Override
-    public DocumentType getDocumentType() {
+    public DocumentType getApplicableDocumentType() {
         return DocumentType.ADDRESS;
     }
 }

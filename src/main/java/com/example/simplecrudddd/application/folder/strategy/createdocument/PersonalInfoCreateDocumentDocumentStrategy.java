@@ -6,6 +6,7 @@ import com.example.simplecrudddd.application.dto.CreatePersonalInfoDocumentDto;
 import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.Cpf;
 import com.example.simplecrudddd.domain.DocumentType;
+import com.example.simplecrudddd.domain.Email;
 import com.example.simplecrudddd.domain.Name;
 import com.example.simplecrudddd.domain.folder.document.PersonalInfoDocument;
 
@@ -13,28 +14,33 @@ import com.example.simplecrudddd.domain.folder.document.PersonalInfoDocument;
 public class PersonalInfoCreateDocumentDocumentStrategy implements CreateDocumentStrategy {
 
     @Override
-    public Result<PersonalInfoDocument> create(CreateDocument createDocument) {
-        CreatePersonalInfoDocumentDto personalDto = (CreatePersonalInfoDocumentDto) createDocument.getCreateDocumentDto();
+    public Result<PersonalInfoDocument> create(CreateDocumentStrategyInput input) {
+        CreatePersonalInfoDocumentDto dto = (CreatePersonalInfoDocumentDto) input.getCreateDocumentDto();
 
-        Result<Name> nameResult = Name.create(personalDto.getFullName());
+        Result<Name> nameResult = Name.create(dto.getFullName());
         if (nameResult.isError()) {
             return Result.error(nameResult.getError());
         }
 
-        Result<Cpf> cpfResult = Cpf.create(personalDto.getCpf());
+        Result<Cpf> cpfResult = Cpf.create(dto.getCpf());
         if (cpfResult.isError()) {
             return Result.error(cpfResult.getError());
+        }
+
+        Result<Email> emailResult = Email.create(dto.getEmail());
+        if (emailResult.isError()) {
+            return Result.error(emailResult.getError());
         }
 
         return Result.ok(PersonalInfoDocument.create(
                 nameResult.getValue(),
                 cpfResult.getValue(),
-                personalDto.getEmail()
+                emailResult.getValue()
         ));
     }
 
     @Override
-    public DocumentType getDocumentType() {
+    public DocumentType getApplicableDocumentType() {
         return DocumentType.PERSONAL_INFO;
     }
 }

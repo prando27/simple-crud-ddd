@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class CreateDocument {
+public class CreateDocumentStrategyInput {
 
     private final Long folderId;
 

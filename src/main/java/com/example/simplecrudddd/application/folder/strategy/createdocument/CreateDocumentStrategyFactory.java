@@ -14,10 +14,13 @@ public class CreateDocumentStrategyFactory {
 
     private final Map<DocumentType, CreateDocumentStrategy> createStrategyByDocumentType;
 
-    public CreateDocumentStrategyFactory(List<CreateDocumentStrategy> createStrategies) {
+    private CreateDocumentStrategyFactory(List<CreateDocumentStrategy> createStrategies) {
         createStrategyByDocumentType = new HashMap<>();
+
         createStrategies.forEach(createDocumentStrategy ->
-                createStrategyByDocumentType.put(createDocumentStrategy.getDocumentType(), createDocumentStrategy));
+                createStrategyByDocumentType.put(
+                        createDocumentStrategy.getApplicableDocumentType(),
+                        createDocumentStrategy));
     }
 
     public Optional<CreateDocumentStrategy> findCreateStrategyByDocumentType(DocumentType documentType) {

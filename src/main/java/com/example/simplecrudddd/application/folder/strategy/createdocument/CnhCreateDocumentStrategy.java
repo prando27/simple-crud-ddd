@@ -17,23 +17,23 @@ public class CnhCreateDocumentStrategy implements CreateDocumentStrategy {
     private final DocumentCopyApplicationService documentCopyApplicationService;
 
     @Override
-    public Result<CnhDocument> create(CreateDocument createDocument) {
-        var createCnhDocumentDto = (CreateCnhDocumentDto) createDocument.getCreateDocumentDto();
+    public Result<CnhDocument> create(CreateDocumentStrategyInput input) {
+        var dto = (CreateCnhDocumentDto) input.getCreateDocumentDto();
 
         var documentCopyOptional = documentCopyApplicationService
                 .findDocumentCopy(
-                        createDocument.getFolderId(),
-                        createCnhDocumentDto.getFileName());
+                        input.getFolderId(),
+                        dto.getFileName());
 
         if (documentCopyOptional.isEmpty()) {
             return Result.error("FileName not exists, upload a document copy first");
         }
 
-        return CnhDocument.create(createCnhDocumentDto.getFileName());
+        return CnhDocument.create(dto.getFileName());
     }
 
     @Override
-    public DocumentType getDocumentType() {
+    public DocumentType getApplicableDocumentType() {
         return DocumentType.CNH;
     }
 }

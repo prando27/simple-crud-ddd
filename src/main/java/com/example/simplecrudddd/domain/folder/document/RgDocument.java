@@ -15,31 +15,20 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 @Entity
 @DiscriminatorValue(DocumentType.Constants.RG)
 public class RgDocument extends Document implements IdentityDocument {
 
+    //================================================================================
+    // Accessors
+    //================================================================================
+
     public String getFileName() {
         return attributes.getFileName();
     }
-
-    public static Result<RgDocument> create(
-            String fileName) {
-
-        if (fileName == null || fileName.length() == 0) {
-            return Result.error("FileName cannot be null or empty");
-        }
-
-        return Result.ok(new RgDocument(new RgAttributes(fileName)));
-    }
-
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
-    @Getter(AccessLevel.PRIVATE)
-    private RgAttributes attributes;
 
     @Override
     public DocumentTypeLimitPerFolder getDocumentTypeLimitPerFolder() {
@@ -55,6 +44,29 @@ public class RgDocument extends Document implements IdentityDocument {
     public String getContent() {
         return getDocumentType() + getFileName();
     }
+
+    //================================================================================
+    // Static Factory Methods
+    //================================================================================
+
+    public static Result<RgDocument> create(
+            String fileName) {
+
+        if (fileName == null || fileName.length() == 0) {
+            return Result.error("FileName cannot be null or empty");
+        }
+
+        return Result.ok(new RgDocument(new RgAttributes(fileName)));
+    }
+
+    //================================================================================
+    // JPA/Hibernate persistence value objects and attributes
+    //================================================================================
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    @Getter(AccessLevel.PRIVATE)
+    private RgAttributes attributes;
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
