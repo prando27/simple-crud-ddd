@@ -1,4 +1,4 @@
-package com.example.simplecrudddd.application.dto;
+package com.example.simplecrudddd.application.folder.dto;
 
 import java.util.List;
 

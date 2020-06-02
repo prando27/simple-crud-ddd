@@ -2,7 +2,7 @@ package com.example.simplecrudddd.application.folder.strategy.updatedocument;
 
 import org.springframework.stereotype.Component;
 
-import com.example.simplecrudddd.application.dto.UpdatePersonalInfoDocumentDto;
+import com.example.simplecrudddd.application.folder.dto.update.UpdatePersonalInfoDocumentDto;
 import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.Cpf;
 import com.example.simplecrudddd.domain.DocumentType;

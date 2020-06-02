@@ -1,6 +1,6 @@
 package com.example.simplecrudddd.application.folder.strategy.createdocument;
 
-import com.example.simplecrudddd.application.dto.CreateDocumentDto;
+import com.example.simplecrudddd.application.folder.dto.create.CreateDocumentDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

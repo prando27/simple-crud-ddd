@@ -1,4 +1,4 @@
-package com.example.simplecrudddd.application.dto;
+package com.example.simplecrudddd.application.folder.dto.update;
 
 import com.example.simplecrudddd.domain.DocumentType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

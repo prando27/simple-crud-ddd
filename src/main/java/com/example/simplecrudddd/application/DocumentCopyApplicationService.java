@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.stereotype.Service;
 
-import com.example.simplecrudddd.application.dto.DocumentCopyDto;
+import com.example.simplecrudddd.application.folder.dto.DocumentCopyDto;
 import com.example.simplecrudddd.common.Result;
 
 @Service

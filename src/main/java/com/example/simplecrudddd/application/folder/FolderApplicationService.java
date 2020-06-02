@@ -4,28 +4,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.simplecrudddd.application.DocumentCopyApplicationService;
-import com.example.simplecrudddd.application.dto.CreateDocumentDto;
-import com.example.simplecrudddd.application.dto.CreateFolderDto;
-import com.example.simplecrudddd.application.dto.DocumentCopyDto;
-import com.example.simplecrudddd.application.dto.DocumentDto;
-import com.example.simplecrudddd.application.dto.FolderDto;
-import com.example.simplecrudddd.application.dto.UpdateDocumentDto;
+import com.example.simplecrudddd.application.folder.dto.DocumentCopyDto;
+import com.example.simplecrudddd.application.folder.dto.DocumentDto;
+import com.example.simplecrudddd.application.folder.dto.FolderDto;
+import com.example.simplecrudddd.application.folder.dto.create.CreateDocumentDto;
+import com.example.simplecrudddd.application.folder.dto.create.CreateFolderDto;
+import com.example.simplecrudddd.application.folder.dto.update.UpdateDocumentDto;
 import com.example.simplecrudddd.application.folder.strategy.createdocument.CreateDocumentStrategyFactory;
 import com.example.simplecrudddd.application.folder.strategy.createdocument.CreateDocumentStrategyInput;
 import com.example.simplecrudddd.application.folder.strategy.updatedocument.UpdateDocumentStrategyFactory;
 import com.example.simplecrudddd.application.folder.strategy.updatedocument.UpdateDocumentStrategyInput;
 import com.example.simplecrudddd.common.Envelope;
+import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.folder.Folder;
 import com.example.simplecrudddd.domain.folder.FolderRepository;
 import com.example.simplecrudddd.domain.folder.document.Document;
@@ -33,8 +31,8 @@ import com.example.simplecrudddd.domain.folder.document.Document;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RestController
-public class FolderController {
+@Service
+public class FolderApplicationService {
 
     private final FolderRepository folderRepository;
 
@@ -44,20 +42,19 @@ public class FolderController {
 
     private final UpdateDocumentStrategyFactory updateDocumentStrategyFactory;
 
-    @PostMapping("/folders")
     @Transactional
-    public ResponseEntity<Envelope<FolderDto>> create(@RequestBody CreateFolderDto dto) {
+    public Result<FolderDto> create(@RequestBody CreateFolderDto dto) {
 
         var folder = Folder.create(dto.getUserId());
         folderRepository.save(folder);
 
-        return ResponseEntity.ok(Envelope.ok(new FolderDto(
+        return Result.ok(new FolderDto(
                 folder.getId(),
                 folder.getUserId(),
-                null)));
+                null));
     }
 
-    @GetMapping("/folders")
+//    @GetMapping("/folders")
     public ResponseEntity<Envelope<List<FolderDto>>> listAll() {
         var folders = folderRepository.findAll();
 
@@ -67,7 +64,7 @@ public class FolderController {
         )).collect(Collectors.toList())));
     }
 
-    @GetMapping("/folders/{folderId}")
+//    @GetMapping("/folders/{folderId}")
     public ResponseEntity<Envelope<FolderDto>> findById(@PathVariable Long folderId) {
         var folderOptional = folderRepository.findById(folderId);
 
@@ -82,7 +79,7 @@ public class FolderController {
         ).get()));
     }
 
-    @PutMapping("/folders/{folderId}/documents")
+//    @PutMapping("/folders/{folderId}/documents")
     @Transactional
     public ResponseEntity<Envelope<DocumentDto>> createDocument(@PathVariable Long folderId,
                                                                 @RequestBody CreateDocumentDto dto) {
@@ -120,7 +117,7 @@ public class FolderController {
         return ResponseEntity.ok(Envelope.ok(new DocumentDto(document)));
     }
 
-    @PutMapping("/folders/{folderId}/documents/{documentId}")
+//    @PutMapping("/folders/{folderId}/documents/{documentId}")
     @Transactional
     public ResponseEntity<Envelope<DocumentDto>> updateDocument(@PathVariable Long folderId,
                                                                 @PathVariable Long documentId,
@@ -154,7 +151,7 @@ public class FolderController {
         return ResponseEntity.ok(Envelope.ok(new DocumentDto(document)));
     }
 
-    @PutMapping("/folders/{folderId}/document-copies")
+//    @PutMapping("/folders/{folderId}/document-copies")
     public ResponseEntity<Envelope<DocumentCopyDto>> createDocumentCopy(@PathVariable Long folderId,
                                                                         @RequestParam("file") MultipartFile file) {
         var folderOptional = folderRepository.findById(folderId);

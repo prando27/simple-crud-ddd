@@ -1,4 +1,4 @@
-package com.example.simplecrudddd.application.dto;
+package com.example.simplecrudddd.application.folder.dto.update;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
