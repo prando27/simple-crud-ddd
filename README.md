@@ -42,7 +42,7 @@
 
 ## Conceitos e ideias utilizados
 - Fail Fast
-- Primitive Obsession
+- Primitive Obsession (Na verdade o contrário hehe, mas esse é o conceito para fugirmos)
 - ValueObject
 
 ## Etapas para criação de um novo tipo de documento
