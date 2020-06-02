@@ -1,7 +1,14 @@
 ## Projeto de CRUD baseado nos conceitos de DDD (Domain Driven Design)
 
+## Stack
+ - Spring Boot
+ - Spring MVC
+ - Spring Data JPA
+ - Hibernate
+ - Hibernate-Types
+ - Lombok
 
-
+## DDD Concepts
 **Application**
  - Application Services
  - Use cases da aplicação
