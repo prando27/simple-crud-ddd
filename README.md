@@ -64,7 +64,6 @@
 
 
 ## Melhorias
-1. Serialização de documentos (Output) está deixando os ValueObjects embedded
 
 ## Problemas sem solução
 1. Como atualizar o tipo de documento entre RG, CNH e RNE?
