@@ -42,7 +42,7 @@
 
 ## Conceitos e ideias utilizados
 - Fail Fast
-- Primitive Obsession
+- Primitive Obsession (Na verdade o contrário hehe, mas esse é o conceito para fugirmos)
 - ValueObject
 
 ## Etapas para criação de um novo tipo de documento
@@ -64,7 +64,9 @@
 
 
 ## Melhorias
-1. Serialização de documentos (Output) está deixando os ValueObjects embedded
 
 ## Problemas sem solução
 1. Como atualizar o tipo de documento entre RG, CNH e RNE?
+2. O Spring faz rollback de transação somente em caso de exceção, com o uso do Result isso deve ser repensado.
+3. Como usar o mesmo tipo de documento para contextos diferentes (A mesma pasta pode ser usada para diferentes contextos).
+  - Abrir um pouco o contrato do objeto e usando NullObject para evitar NPE
