@@ -1,5 +1,7 @@
 ## Projeto de CRUD baseado nos conceitos de DDD (Domain Driven Design)
 
+
+
 **Application**
  - Application Services
  - Use cases da aplicação
@@ -10,6 +12,7 @@
    - Conversões entre objetos de domain e DTOS também!
  - "Conversa" com valueobjects, aggregates e outros application services
  - Tem um "pezinho" na infraestrutura, exemplo acesso ao S3
+
 
 **Domain**
  - Toda a regra de negócio vai aqui!
@@ -22,6 +25,7 @@
    - São responsáveis por criar DomainEvents (mas não por dispará-los, quem faz isso é a camada de infraestrutura)
  - Todos os objetos são bem encapsulados, não é possível cria-los ou obte-los em um estado inconsistente
 
+
 **Infrastructure**
  - Toda a parte "baixo nível vai aqui"
    - baixo nível aqui significa que interage com coisas externas como banco, protocolo http, filas etc
@@ -29,7 +33,10 @@
  - Controllers HTTP, erros 4XX, 5XX são feitos nessa camada com base no que recebe de um application service
  - Listeners de repositories para implementar two way dispatch de eventos de domínio
 
+
+
 ## Etapas para criação de um novo tipo de documento
+
 **Domain**
 1. Criar um novo DocumentType e a constant String com o nome
 2. Criar um novo documento que estende de Document (Implementar os métodos abstratos)
