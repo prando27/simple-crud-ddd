@@ -1,0 +1,14 @@
+Domain
+1. Criar um novo DocumentType e a constant String com o nome
+2. Criar um novo documento que estende de Document (Implementar os métodos abstratos)
+ 2.1. DiscriminatorValue = constante do novo DocumentType
+ 2.2. Criar um backing object para os atributos (ValueObject)
+ 2.3. Criar os getters
+ 2.4. Criar um atributo attributes do tipo do backing object
+ 2.5. Criar um método estático create
+
+
+ApplicationService
+1. Criar um novo DTO que estende de CreateDocumentDto com os campos do documento
+2. Adicionar o novo DTO na lista de CreateDocumentDto (JsonSubTypes)
+3. Criar uma nova implementação de CreateStrategy para o documento (Component do Spring)

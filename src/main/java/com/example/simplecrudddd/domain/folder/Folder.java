@@ -14,6 +14,7 @@ import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.folder.document.Document;
 import com.example.simplecrudddd.domain.folder.document.DocumentTypeLimitPerFolder;
 import com.example.simplecrudddd.domain.folder.document.IdentityDocument;
+import com.example.simplecrudddd.domain.folder.document.event.DocumentCreatedEvent;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,8 @@ public class Folder extends AggregateRoot {
                 return false;
             }
         }
+
+        registerEvent(new DocumentCreatedEvent());
 
         document.setFolder(this);
         return documents.add(document);
