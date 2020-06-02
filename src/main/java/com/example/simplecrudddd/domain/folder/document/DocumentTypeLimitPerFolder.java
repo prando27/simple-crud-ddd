@@ -1,6 +1,6 @@
 package com.example.simplecrudddd.domain.folder.document;
 
-public enum DocumentTypeQuantityPerFolder {
+public enum DocumentTypeLimitPerFolder {
     ONE,
     MANY
 }

@@ -8,7 +8,7 @@ import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.folder.document.AddressDocument;
 
 @Component
-public class AddressCreateDocumentDocumentStrategy implements CreateDocumentStrategy {
+public class AddressCreateDocumentStrategy implements CreateDocumentStrategy {
 
     @Override
     public Result<AddressDocument> create(CreateDocument createDocument) {

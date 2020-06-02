@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @DiscriminatorValue(DocumentType.Constants.RG)
-public class RgDocument extends Document {
+public class RgDocument extends Document implements IdentityDocument {
 
     public String getFileName() {
         return attributes.getFileName();
@@ -42,8 +42,8 @@ public class RgDocument extends Document {
     private RgAttributes attributes;
 
     @Override
-    public DocumentTypeQuantityPerFolder getDocumentTypeQuantityPerFolder() {
-        return DocumentTypeQuantityPerFolder.ONE;
+    public DocumentTypeLimitPerFolder getDocumentTypeLimitPerFolder() {
+        return DocumentTypeLimitPerFolder.ONE;
     }
 
     @Override

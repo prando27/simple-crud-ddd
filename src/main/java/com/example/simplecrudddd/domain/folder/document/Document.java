@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.folder.Folder;
 
-import lombok.Getter;
 import lombok.Setter;
 
 @Entity
@@ -21,7 +20,6 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "document_type")
 public abstract class Document extends com.example.simplecrudddd.common.Entity {
 
-    @Getter
     @Column(name = "document_type", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private DocumentType documentType;
@@ -31,7 +29,7 @@ public abstract class Document extends com.example.simplecrudddd.common.Entity {
     @JoinColumn(name = "folder_id")
     private Folder folder;
 
-    public abstract DocumentTypeQuantityPerFolder getDocumentTypeQuantityPerFolder();
+    public abstract DocumentTypeLimitPerFolder getDocumentTypeLimitPerFolder();
 
     public abstract DocumentType getDocumentType();
 

@@ -22,7 +22,8 @@ import com.example.simplecrudddd.application.dto.DocumentDto;
 import com.example.simplecrudddd.application.dto.FolderDto;
 import com.example.simplecrudddd.application.dto.UpdateDocumentDto;
 import com.example.simplecrudddd.application.folder.strategy.createdocument.CreateDocument;
-import com.example.simplecrudddd.application.folder.strategy.createdocument.CreateDocumentFactory;
+import com.example.simplecrudddd.application.folder.strategy.createdocument.CreateDocumentStrategyFactory;
+import com.example.simplecrudddd.application.folder.strategy.updatedocument.UpdateDocumentStrategyFactory;
 import com.example.simplecrudddd.common.Envelope;
 import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.folder.Folder;
@@ -39,7 +40,9 @@ public class FolderController {
 
     private final DocumentCopyApplicationService documentCopyApplicationService;
 
-    private final CreateDocumentFactory createDocumentFactory;
+    private final CreateDocumentStrategyFactory createDocumentStrategyFactory;
+
+    private final UpdateDocumentStrategyFactory updateDocumentStrategyFactory;
 
     @PostMapping("/folders")
     @Transactional
@@ -90,7 +93,7 @@ public class FolderController {
         }
         var folder = folderOptional.get();
 
-        var createStrategyOptional = createDocumentFactory
+        var createStrategyOptional = createDocumentStrategyFactory
                 .findCreateStrategyByDocumentType(dto.getDocumentType());
         if (createStrategyOptional.isEmpty()) {
             return ResponseEntity.badRequest().body(Envelope.error("Document Type not exists"));
@@ -106,7 +109,7 @@ public class FolderController {
         boolean documentAdded = folder.addDocument(document);
 
         if (!documentAdded) {
-            var existingDocumentOptional = folder.findDocumentByDocumentTypeQuantity(document);
+            var existingDocumentOptional = folder.findDocumentByDocumentTypeLimitPerFolder(document);
             if (existingDocumentOptional.isEmpty()) {
                 return ResponseEntity.unprocessableEntity().body(Envelope.error("Unexpected"));
             }
@@ -122,7 +125,32 @@ public class FolderController {
     public ResponseEntity<Envelope<DocumentDto>> updateDocument(@PathVariable Long folderId,
                                                                 @PathVariable Long documentId,
                                                                 @RequestBody UpdateDocumentDto dto) {
-        return null;
+
+        var folderOptional = folderRepository.findById(folderId);
+        if (folderOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body(Envelope.error("Folder not exists"));
+        }
+        var folder = folderOptional.get();
+
+        var documentOptional = folder.findDocumentById(documentId);
+        if (documentOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body(Envelope.error("Document not exists"));
+        }
+        var document = documentOptional.get();
+
+        var updateStrategyOptional = updateDocumentStrategyFactory
+                .findCreateStrategyByDocumentType(document.getDocumentType());
+        if (updateStrategyOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body(Envelope.error("Document Type not exists"));
+        }
+        var updateDocumentStrategy = updateStrategyOptional.get();
+
+        Result<? extends Document> updateResult = updateDocumentStrategy.update(dto, document);
+        if (updateResult.isError()) {
+            return ResponseEntity.badRequest().body(Envelope.error(updateResult.getError()));
+        }
+
+        return ResponseEntity.ok(Envelope.ok(new DocumentDto(document)));
     }
 
     @PutMapping("/folders/{folderId}/document-copies")

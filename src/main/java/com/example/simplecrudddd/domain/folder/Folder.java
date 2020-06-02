@@ -12,7 +12,8 @@ import javax.persistence.OneToMany;
 import com.example.simplecrudddd.common.AggregateRoot;
 import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.folder.document.Document;
-import com.example.simplecrudddd.domain.folder.document.DocumentTypeQuantityPerFolder;
+import com.example.simplecrudddd.domain.folder.document.DocumentTypeLimitPerFolder;
+import com.example.simplecrudddd.domain.folder.document.IdentityDocument;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,8 @@ public class Folder extends AggregateRoot {
     private List<Document> documents = new ArrayList<>();
 
     public boolean addDocument(Document document) {
-        // horrivel isso aqui, melhorar um dia...
-        if (document.getDocumentTypeQuantityPerFolder() == DocumentTypeQuantityPerFolder.ONE) {
+        // horrivel isso aqui, melhorar...
+        if (document.getDocumentTypeLimitPerFolder() == DocumentTypeLimitPerFolder.ONE) {
             if (isDocumentAlreadyStoredByDocumentType(document.getDocumentType())) {
                 return false;
             }
@@ -44,6 +45,12 @@ public class Folder extends AggregateRoot {
 
         document.setFolder(this);
         return documents.add(document);
+    }
+
+    public Optional<Document> findIdentityDocument() {
+        return documents.stream()
+                .filter(document -> document instanceof IdentityDocument)
+                .findFirst();
     }
 
     private boolean isDocumentWithSameContentExists(String documentContent) {
@@ -58,12 +65,16 @@ public class Folder extends AggregateRoot {
                 .anyMatch(documentType::equals);
     }
 
-    public Optional<Document> findDocumentByDocumentTypeQuantity(Document document) {
-        if (document.getDocumentTypeQuantityPerFolder() == DocumentTypeQuantityPerFolder.ONE) {
+    public Optional<Document> findDocumentByDocumentTypeLimitPerFolder(Document document) {
+        if (document.getDocumentTypeLimitPerFolder() == DocumentTypeLimitPerFolder.ONE) {
             return findDocumentByDocumentType(document.getDocumentType());
         }
 
         return findDocumentByContent(document.getContent());
+    }
+
+    public Optional<Document> findDocumentById(Long documentId) {
+        return documents.stream().filter(document -> document.getId().equals(documentId)).findFirst();
     }
 
     private Optional<Document> findDocumentByDocumentType(DocumentType documentType) {

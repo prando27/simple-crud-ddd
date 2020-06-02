@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import com.example.simplecrudddd.domain.DocumentType;
 
 @Component
-public class CreateDocumentFactory {
+public class CreateDocumentStrategyFactory {
 
     private final Map<DocumentType, CreateDocumentStrategy> createStrategyByDocumentType;
 
-    public CreateDocumentFactory(List<CreateDocumentStrategy> createStrategies) {
+    public CreateDocumentStrategyFactory(List<CreateDocumentStrategy> createStrategies) {
         createStrategyByDocumentType = new HashMap<>();
         createStrategies.forEach(createDocumentStrategy ->
                 createStrategyByDocumentType.put(createDocumentStrategy.getDocumentType(), createDocumentStrategy));

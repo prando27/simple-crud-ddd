@@ -42,8 +42,8 @@ public class AddressDocument extends Document {
     private AddressAttributes attributes;
 
     @Override
-    public DocumentTypeQuantityPerFolder getDocumentTypeQuantityPerFolder() {
-        return DocumentTypeQuantityPerFolder.MANY;
+    public DocumentTypeLimitPerFolder getDocumentTypeLimitPerFolder() {
+        return DocumentTypeLimitPerFolder.MANY;
     }
 
     @Override

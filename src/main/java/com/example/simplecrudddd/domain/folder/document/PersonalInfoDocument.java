@@ -42,14 +42,20 @@ public class PersonalInfoDocument extends Document {
         return new PersonalInfoDocument(new PersonalInfoAttributes(fullName.getValue(), cpf.getValue(), email));
     }
 
+    public void update(Name fullName, Cpf cpf, String email) {
+        this.attributes.fullName = fullName.getValue();
+        this.attributes.cpf = cpf.getValue();
+        this.attributes.email = email;
+    }
+
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     @Getter(AccessLevel.PRIVATE)
     private PersonalInfoAttributes attributes;
 
     @Override
-    public DocumentTypeQuantityPerFolder getDocumentTypeQuantityPerFolder() {
-        return DocumentTypeQuantityPerFolder.ONE;
+    public DocumentTypeLimitPerFolder getDocumentTypeLimitPerFolder() {
+        return DocumentTypeLimitPerFolder.ONE;
     }
 
     @Override
