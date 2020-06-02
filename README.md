@@ -7,7 +7,7 @@
  - Faz a orquestração com os objetos da camada de domain, não tem regra de negócio
  - Sabe o que é uma transação (Transactional, Unit of Work, etc)
  - Contrato de dados (entrada e saída ou os DTOs) entre cliente e servidor são feitos aqui
-  - Conversões entre objetos de domain e DTOS também!
+   - Conversões entre objetos de domain e DTOS também!
  - "Conversa" com valueobjects, aggregates e outros application services
  - Tem um "pezinho" na infraestrutura, exemplo acesso ao S3
 
