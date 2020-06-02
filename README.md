@@ -40,7 +40,10 @@
  - Controllers HTTP, erros 4XX, 5XX são feitos nessa camada com base no que recebe de um application service
  - Listeners de repositories para implementar two way dispatch de eventos de domínio
 
-
+## Conceitos e ideias utilizados
+- Fail Fast
+- Primitive Obsession
+- ValueObject
 
 ## Etapas para criação de um novo tipo de documento
 
