@@ -18,27 +18,27 @@ public class PersonalInfoUpdateDocumentStrategy implements UpdateDocumentStrateg
         var dto = (UpdatePersonalInfoDocumentDto) input.getDto();
         var existingPersonalInfoDocument = (PersonalInfoDocument) input.getExistingDocument();
 
-        // TODO - Search about the Result.combine method
+        // TODO - Pesquisar sobre o método Result.combine que faz um merge de vários results para determinar o isError
         Result<Name> fullNameResult = Name.create(dto.getFullName());
         if (fullNameResult.isError()) {
             return Result.error(fullNameResult.getError());
         }
+        existingPersonalInfoDocument.changeFullName(fullNameResult.getValue());
 
-        Result<Cpf> cpfResult = Cpf.create(dto.getCpf());
-        if (cpfResult.isError()) {
-            return Result.error(cpfResult.getError());
+        // TODO - Pensar sobre cenários onde em um contexto o dado vem e em outro não
+        if (dto.getCpf() != null) {
+            Result<Cpf> cpfResult = Cpf.create(dto.getCpf());
+            if (cpfResult.isError()) {
+                return Result.error(cpfResult.getError());
+            }
+            existingPersonalInfoDocument.changeCpf(cpfResult.getValue());
         }
 
         Result<Email> emailResult = Email.create(dto.getEmail());
         if (emailResult.isError()) {
             return Result.error(emailResult.getError());
         }
-
-        existingPersonalInfoDocument.update(
-                fullNameResult.getValue(),
-                cpfResult.getValue(),
-                emailResult.getValue()
-        );
+        existingPersonalInfoDocument.changeEmail(emailResult.getValue());
 
         return Result.ok(existingPersonalInfoDocument);
     }

@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Name {
 
+    public static final Name NONE = new Name();
+
     private String value;
 
     public Name(String value) {

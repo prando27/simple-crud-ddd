@@ -48,6 +48,10 @@ public class Folder extends AggregateRoot {
         return documents.add(document);
     }
 
+    public boolean removeDocument(Long documentId) {
+        return documents.removeIf(document -> documentId.equals(document.getId()));
+    }
+
 //    public Optional<Document> findIdentityDocument() {
 //        return documents.stream()
 //                .filter(document -> document instanceof IdentityDocument)

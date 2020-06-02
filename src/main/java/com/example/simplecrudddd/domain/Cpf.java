@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Cpf {
 
+    public static final Cpf NONE = new Cpf();
+
     private String value;
 
     public Cpf(String value) {

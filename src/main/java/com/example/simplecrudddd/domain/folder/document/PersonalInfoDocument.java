@@ -1,5 +1,7 @@
 package com.example.simplecrudddd.domain.folder.document;
 
+import static java.util.Optional.ofNullable;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -43,15 +45,21 @@ public class PersonalInfoDocument extends Document {
     //================================================================================
 
     public Name getFullName() {
-        return new Name(attributes.getFullName());
+        return ofNullable(attributes.getFullName())
+                .map(Name::new)
+                .orElse(Name.NONE);
     }
 
     public Cpf getCpf() {
-        return new Cpf(attributes.getCpf());
+        return ofNullable(attributes.getCpf())
+                .map(Cpf::new)
+                .orElse(Cpf.NONE);
     }
 
     public Email getEmail() {
-        return new Email(attributes.getEmail());
+        return ofNullable(attributes.getEmail())
+                .map(Email::new)
+                .orElse(Email.NONE);
     }
 
     @Override
@@ -76,14 +84,16 @@ public class PersonalInfoDocument extends Document {
     // Mutator Methods
     //================================================================================
 
-    /**
-     * Use of value objects protect the data integrity
-     */
-    public void update(Name fullName, Cpf cpf, Email email) {
-        this.attributes = new PersonalInfoAttributes(
-                fullName.getValue(),
-                cpf.getValue(),
-                email.getValue());
+    public void changeFullName(Name fullName) {
+        this.attributes.fullName = fullName.getValue();
+    }
+
+    public void changeCpf(Cpf cpf) {
+        this.attributes.cpf = cpf.getValue();
+    }
+
+    public void changeEmail(Email email) {
+        this.attributes.email = email.getValue();
     }
 
     //================================================================================
