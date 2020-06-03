@@ -42,6 +42,7 @@
 
 ## Conceitos e ideias utilizados
 - Fail Fast
+- CQS (Command Query Separation)
 - Primitive Obsession (Na verdade o contrário hehe, mas esse é o conceito para fugirmos)
 - ValueObject
 
