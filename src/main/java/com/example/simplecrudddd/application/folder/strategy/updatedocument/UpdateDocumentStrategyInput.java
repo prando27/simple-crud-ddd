@@ -1,7 +1,7 @@
 package com.example.simplecrudddd.application.folder.strategy.updatedocument;
 
 import com.example.simplecrudddd.application.folder.dto.update.UpdateDocumentDto;
-import com.example.simplecrudddd.domain.folder.document.Document;
+import com.example.simplecrudddd.domain.folder.entity.document.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

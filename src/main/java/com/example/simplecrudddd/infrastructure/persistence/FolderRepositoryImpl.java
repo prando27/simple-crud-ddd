@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.simplecrudddd.domain.folder.Folder;
-import com.example.simplecrudddd.domain.folder.FolderRepository;
+import com.example.simplecrudddd.domain.folder.entity.Folder;
+import com.example.simplecrudddd.domain.folder.repository.FolderRepository;
 
 import lombok.AllArgsConstructor;
 

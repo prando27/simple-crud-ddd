@@ -1,6 +1,8 @@
-package com.example.simplecrudddd.domain.folder.document;
+package com.example.simplecrudddd.domain.folder.entity.document;
 
 import static java.util.Optional.ofNullable;
+
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -44,22 +46,19 @@ public class PersonalInfoDocument extends Document {
     // Accessors
     //================================================================================
 
-    public Name getFullName() {
+    public Optional<Name> getFullName() {
         return ofNullable(attributes.getFullName())
-                .map(Name::new)
-                .orElse(Name.NONE);
+                .map(Name::new);
     }
 
-    public Cpf getCpf() {
+    public Optional<Cpf> getCpf() {
         return ofNullable(attributes.getCpf())
-                .map(Cpf::new)
-                .orElse(Cpf.NONE);
+                .map(Cpf::new);
     }
 
-    public Email getEmail() {
+    public Optional<Email> getEmail() {
         return ofNullable(attributes.getEmail())
-                .map(Email::new)
-                .orElse(Email.NONE);
+                .map(Email::new);
     }
 
     @Override

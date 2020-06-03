@@ -7,12 +7,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+// TODO - Considerar o uso de Bean Validation para as validações, porém sem lançar exceções e sim um Result.error com a mensagem da violação
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Name {
-
-    public static final Name NONE = new Name();
 
     private String value;
 
@@ -34,6 +33,7 @@ public class Name {
         try {
             return Result.ok(new Name(value));
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             return Result.error(ex.getMessage());
         }
     }

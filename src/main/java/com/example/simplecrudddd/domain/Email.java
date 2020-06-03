@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Email {
 
-    public static final Email NONE = new Email();
-
     private String value;
 
     public Email(String value) {

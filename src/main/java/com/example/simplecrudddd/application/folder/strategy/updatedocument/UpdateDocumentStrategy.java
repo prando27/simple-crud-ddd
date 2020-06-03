@@ -2,7 +2,7 @@ package com.example.simplecrudddd.application.folder.strategy.updatedocument;
 
 import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.DocumentType;
-import com.example.simplecrudddd.domain.folder.document.Document;
+import com.example.simplecrudddd.domain.folder.entity.document.Document;
 
 public interface UpdateDocumentStrategy {
 

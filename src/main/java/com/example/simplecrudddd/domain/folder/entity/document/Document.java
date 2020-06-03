@@ -1,4 +1,4 @@
-package com.example.simplecrudddd.domain.folder.document;
+package com.example.simplecrudddd.domain.folder.entity.document;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.example.simplecrudddd.domain.DocumentType;
-import com.example.simplecrudddd.domain.folder.Folder;
+import com.example.simplecrudddd.domain.folder.entity.Folder;
 
 import lombok.Setter;
 

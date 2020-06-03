@@ -1,4 +1,4 @@
-package com.example.simplecrudddd.domain.folder.document.event;
+package com.example.simplecrudddd.domain.folder.event;
 
 import com.example.simplecrudddd.common.DomainEvent;
 

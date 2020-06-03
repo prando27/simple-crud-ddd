@@ -8,7 +8,7 @@ import com.example.simplecrudddd.domain.Cpf;
 import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.Email;
 import com.example.simplecrudddd.domain.Name;
-import com.example.simplecrudddd.domain.folder.document.PersonalInfoDocument;
+import com.example.simplecrudddd.domain.folder.entity.document.PersonalInfoDocument;
 
 @Component
 public class PersonalInfoCreateDocumentDocumentStrategy implements CreateDocumentStrategy {

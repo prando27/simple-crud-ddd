@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.example.simplecrudddd.application.DocumentCopyApplicationService;
 import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.DocumentType;
-import com.example.simplecrudddd.domain.folder.document.CnhDocument;
+import com.example.simplecrudddd.domain.folder.entity.document.CnhDocument;
 
 import lombok.AllArgsConstructor;
 

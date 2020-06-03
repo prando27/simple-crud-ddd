@@ -1,6 +1,7 @@
 package com.example.simplecrudddd.infrastructure.http;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -31,13 +32,9 @@ public class FolderController {
     @PostMapping("/folders")
     public ResponseEntity<Envelope<FolderDto>> create(@RequestBody CreateFolderDto dto) {
 
-        Result<FolderDto> folderDtoResult = folderApplicationService.create(dto);
+        var folderDto = folderApplicationService.create(dto);
 
-        if (folderDtoResult.isError()) {
-            return ResponseEntity.badRequest().body(Envelope.error(folderDtoResult.getError()));
-        }
-
-        return ResponseEntity.ok(Envelope.ok(folderDtoResult.getValue()));
+        return ResponseEntity.ok(Envelope.ok(folderDto));
     }
 
     @GetMapping("/folders")
@@ -60,14 +57,15 @@ public class FolderController {
     @PutMapping("/folders/{folderId}/documents")
     public ResponseEntity<Envelope<DocumentDto>> createDocument(@PathVariable Long folderId,
                                                                 @RequestBody CreateDocumentDto dto) {
+        try {
+            var documentDto = folderApplicationService.createDocument(folderId, dto);
 
-        Result<DocumentDto> createDocumentResult = folderApplicationService.createDocument(folderId, dto);
-
-        if (createDocumentResult.isError()) {
-            return ResponseEntity.badRequest().body(Envelope.error(createDocumentResult.getError()));
+            return ResponseEntity.ok(Envelope.ok(documentDto));
+        } catch (NoSuchElementException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(Envelope.error(ex.getMessage()));
         }
-
-        return ResponseEntity.ok(Envelope.ok(createDocumentResult.getValue()));
     }
 
     @PutMapping("/folders/{folderId}/documents/{documentId}")

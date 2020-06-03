@@ -1,6 +1,7 @@
 package com.example.simplecrudddd.application.folder;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,11 +19,13 @@ import com.example.simplecrudddd.application.folder.strategy.createdocument.Crea
 import com.example.simplecrudddd.application.folder.strategy.updatedocument.UpdateDocumentStrategyFactory;
 import com.example.simplecrudddd.application.folder.strategy.updatedocument.UpdateDocumentStrategyInput;
 import com.example.simplecrudddd.common.Result;
-import com.example.simplecrudddd.domain.folder.Folder;
-import com.example.simplecrudddd.domain.folder.FolderRepository;
+import com.example.simplecrudddd.domain.folder.entity.Folder;
+import com.example.simplecrudddd.domain.folder.repository.FolderRepository;
 
 import lombok.RequiredArgsConstructor;
 
+// Não usei a classe Result aqui pelas questões de como transações funcionam com Spring/Hibernate
+// Para que o rollback seja feito, o método deve lançar uma runtimeexception
 @RequiredArgsConstructor
 @Service
 public class FolderApplicationService {
@@ -36,15 +39,22 @@ public class FolderApplicationService {
     private final UpdateDocumentStrategyFactory updateDocumentStrategyFactory;
 
     @Transactional
-    public Result<FolderDto> create(CreateFolderDto dto) {
+    public FolderDto create(CreateFolderDto dto) {
 
         var folder = Folder.create(dto.getUserId());
         folderRepository.save(folder);
 
-        return Result.ok(new FolderDto(
+        return toFolderDto(folder);
+    }
+
+    private FolderDto toFolderDto(Folder folder) {
+        return new FolderDto(
                 folder.getId(),
                 folder.getUserId(),
-                null));
+                folder.getDocuments()
+                        .stream()
+                        .map(DocumentDto::new)
+                        .collect(Collectors.toList()));
     }
 
     public List<FolderDto> listAll() {
@@ -59,36 +69,25 @@ public class FolderApplicationService {
     public Optional<FolderDto> findById(Long folderId) {
         var folderOptional = folderRepository.findById(folderId);
 
-        return folderOptional.map(folder -> new FolderDto(
-                folder.getId(),
-                folder.getUserId(),
-                folder.getDocuments()
-                        .stream()
-                        .map(DocumentDto::new)
-                        .collect(Collectors.toList()))
-        );
+        return folderOptional.map(this::toFolderDto);
     }
 
     @Transactional
-    public Result<DocumentDto> createDocument(Long folderId,
-                                              CreateDocumentDto dto) {
+    public DocumentDto createDocument(Long folderId,
+                                      CreateDocumentDto dto)
+            throws NoSuchElementException, IllegalArgumentException {
 
-        var folderOptional = folderRepository.findById(folderId);
-        if (folderOptional.isEmpty()) {
-            return Result.error("Folder not exists");
-        }
-        var folder = folderOptional.get();
+        var folder = folderRepository.findById(folderId)
+                .orElseThrow(() -> new NoSuchElementException("Folder not exists"));
 
-        var createStrategyOptional = createDocumentStrategyFactory
-                .findCreateStrategyByDocumentType(dto.getDocumentType());
-        if (createStrategyOptional.isEmpty()) {
-            return Result.error("Document Type not exists");
-        }
+        var createDocumentStrategy = createDocumentStrategyFactory
+                .findCreateStrategyByDocumentType(dto.getDocumentType())
+                .orElseThrow(() -> new NoSuchElementException("Document Type not exists"));
 
-        var createStrategy = createStrategyOptional.get();
-        var createDocumentResult = createStrategy.create(new CreateDocumentStrategyInput(folder.getId(), dto));
+        var createDocumentResult = createDocumentStrategy.create(
+                new CreateDocumentStrategyInput(folder.getId(), dto));
         if (createDocumentResult.isError()) {
-            return Result.error(createDocumentResult.getError());
+            throw new IllegalArgumentException(createDocumentResult.getError());
         }
 
         var document = createDocumentResult.getValue();
@@ -97,13 +96,14 @@ public class FolderApplicationService {
         if (!documentAdded) {
             var existingDocumentOptional = folder.findDocumentByDocumentTypeLimitPerFolder(document);
             if (existingDocumentOptional.isEmpty()) {
-                return Result.error("Document not found");
+//                return Result.error("Document not found");
             }
 
-            return Result.ok(existingDocumentOptional.map(DocumentDto::new).get());
+//            return Result.ok(existingDocumentOptional.map(DocumentDto::new).get());
+            return existingDocumentOptional.map(DocumentDto::new).get();
         }
 
-        return Result.ok(new DocumentDto(document));
+        return new DocumentDto(document);
     }
 
     @Transactional

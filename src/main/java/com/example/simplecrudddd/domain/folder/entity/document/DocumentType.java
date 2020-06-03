@@ -1,4 +1,4 @@
-package com.example.simplecrudddd.domain.folder.document;
+package com.example.simplecrudddd.domain.folder.entity.document;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

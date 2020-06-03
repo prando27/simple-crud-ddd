@@ -1,4 +1,4 @@
-package com.example.simplecrudddd.domain.folder;
+package com.example.simplecrudddd.domain.folder.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import javax.persistence.OneToMany;
 
 import com.example.simplecrudddd.common.AggregateRoot;
 import com.example.simplecrudddd.domain.DocumentType;
-import com.example.simplecrudddd.domain.folder.document.Document;
-import com.example.simplecrudddd.domain.folder.document.DocumentTypeLimitPerFolder;
+import com.example.simplecrudddd.domain.folder.entity.document.Document;
+import com.example.simplecrudddd.domain.folder.entity.document.DocumentTypeLimitPerFolder;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
