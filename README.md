@@ -30,6 +30,7 @@
    - Conjunto de entities e value objects que determina um conceito ou abstração na regra de negócio
    - Possui um AggregateRoot que é a entidade que dá Id ao Aggregate
    - São responsáveis por criar DomainEvents (mas não por dispará-los, quem faz isso é a camada de infraestrutura)
+ - Domain Services (Regras que envolvem mais de uma entity ou aggregate e não se encaixa em nenhuma das mesmas/mesmos)
  - Todos os objetos são bem encapsulados, não é possível cria-los ou obte-los em um estado inconsistente
 
 
