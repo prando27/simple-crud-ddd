@@ -10,7 +10,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.folder.entity.Folder;
 
 import lombok.Setter;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.example.simplecrudddd.application.folder.dto.update.UpdatePersonalInfoDocumentDto;
 import com.example.simplecrudddd.common.Result;
 import com.example.simplecrudddd.domain.Cpf;
-import com.example.simplecrudddd.domain.DocumentType;
+import com.example.simplecrudddd.domain.folder.entity.document.DocumentType;
 import com.example.simplecrudddd.domain.Email;
 import com.example.simplecrudddd.domain.Name;
 import com.example.simplecrudddd.domain.folder.entity.document.PersonalInfoDocument;

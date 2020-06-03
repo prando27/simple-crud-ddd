@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import org.hibernate.annotations.Type;
 
 import com.example.simplecrudddd.domain.Cpf;
-import com.example.simplecrudddd.domain.DocumentType;
 import com.example.simplecrudddd.domain.Email;
 import com.example.simplecrudddd.domain.Name;
 
@@ -46,9 +45,8 @@ public class PersonalInfoDocument extends Document {
     // Accessors
     //================================================================================
 
-    public Optional<Name> getFullName() {
-        return ofNullable(attributes.getFullName())
-                .map(Name::new);
+    public Name getFullName() {
+        return new Name(attributes.getFullName());
     }
 
     public Optional<Cpf> getCpf() {
@@ -56,9 +54,8 @@ public class PersonalInfoDocument extends Document {
                 .map(Cpf::new);
     }
 
-    public Optional<Email> getEmail() {
-        return ofNullable(attributes.getEmail())
-                .map(Email::new);
+    public Email getEmail() {
+        return new Email(attributes.getEmail());
     }
 
     @Override
@@ -103,6 +100,14 @@ public class PersonalInfoDocument extends Document {
             Name fullName,
             Cpf cpf,
             Email email) {
+
+        if (fullName == null) {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
+
+        if (email == null) {
+            throw new IllegalArgumentException("Email cannot be null");
+        }
 
         return new PersonalInfoDocument(new PersonalInfoAttributes(
                 fullName.getValue(),

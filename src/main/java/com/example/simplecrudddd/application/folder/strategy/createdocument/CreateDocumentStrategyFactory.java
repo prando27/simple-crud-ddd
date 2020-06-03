@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.example.simplecrudddd.domain.DocumentType;
+import com.example.simplecrudddd.domain.folder.entity.document.DocumentType;
 
 @Component
 public class CreateDocumentStrategyFactory {

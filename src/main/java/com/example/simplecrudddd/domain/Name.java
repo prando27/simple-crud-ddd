@@ -33,7 +33,6 @@ public class Name {
         try {
             return Result.ok(new Name(value));
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
             return Result.error(ex.getMessage());
         }
     }

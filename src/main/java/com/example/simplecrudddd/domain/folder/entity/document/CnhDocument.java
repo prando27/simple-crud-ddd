@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import org.hibernate.annotations.Type;
 
 import com.example.simplecrudddd.common.Result;
-import com.example.simplecrudddd.domain.DocumentType;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

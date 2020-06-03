@@ -1,6 +1,6 @@
 package com.example.simplecrudddd.application.folder.dto.update;
 
-import com.example.simplecrudddd.domain.DocumentType;
+import com.example.simplecrudddd.domain.folder.entity.document.DocumentType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
